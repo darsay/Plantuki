@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47804260fc0cdc542be15da94f23e0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRotationEnabled: 0
+  isRotationEnabled: 1
 --- !u!114 &1224254261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damping: 50
+  speed: 0
 --- !u!1 &1358445997
 GameObject:
   m_ObjectHideFlags: 0

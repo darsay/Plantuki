@@ -17,16 +17,23 @@ public class CameraController : MonoBehaviour{
     }
 
     private void LateUpdate() {
+        if (!isRotationEnabled) return;
+        
         if (Input.GetMouseButtonDown(0)) {
             previousTouchPoint = Input.mousePosition.x;
         }
 
-        if (Input.GetMouseButton(0) && isRotationEnabled) {
+        if (Input.GetMouseButton(0)) {
             currentTouch = Input.mousePosition.x;
             
             _cameraBehaviour.RotateCamera(previousTouchPoint, currentTouch);
             previousTouchPoint = currentTouch;
         }
+        else {
+            _cameraBehaviour.DecelerateCamera();
+        }
+
+        
 
     }
 }
