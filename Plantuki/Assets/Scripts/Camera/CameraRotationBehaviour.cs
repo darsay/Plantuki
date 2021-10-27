@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CameraBehaviour : MonoBehaviour {
+public class CameraRotationBehaviour : MonoBehaviour {
     [SerializeField] private float damping;
     [SerializeField] private float decelerationForce;
     private float speed;
     private bool isSpeedNegative;
+    [SerializeField] private bool isScrolling;
     
     public void RotateCamera(float currentTouch, float touchPoint) {
+        isScrolling = true;
+        
          var difference = currentTouch - touchPoint;
 
          var rotation = transform.rotation;
@@ -49,7 +52,7 @@ public class CameraBehaviour : MonoBehaviour {
         transform.rotation = rotation;
     }
 
-    bool CheckStopped() {
+    public bool CheckStopped() {
         if (speed == 0) return true;
 
         if (isSpeedNegative && speed > 0) {
@@ -61,5 +64,13 @@ public class CameraBehaviour : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public void StopScrolling() {
+        isScrolling = false;
+    }
+
+    public bool CheckIfScrolling() {
+        return isScrolling;
     }
 }
