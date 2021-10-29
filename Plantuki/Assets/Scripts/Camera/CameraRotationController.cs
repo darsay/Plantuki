@@ -20,6 +20,12 @@ public class CameraRotationController : MonoBehaviour{
 
     private void OnEnable() {
         _cameraPointerController.OnObjectSelected.AddListener(DisableRotation);
+        _cameraPointerController.OnObjectDeselected.AddListener(EnableRotation);
+    }
+
+    private void OnDisable() {
+        _cameraPointerController.OnObjectSelected.RemoveListener(DisableRotation);
+        _cameraPointerController.OnObjectDeselected.RemoveListener(EnableRotation);
     }
 
     private void LateUpdate() {

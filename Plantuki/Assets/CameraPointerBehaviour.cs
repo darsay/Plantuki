@@ -7,16 +7,18 @@ using DG.Tweening;
 
 public class CameraPointerBehaviour : MonoBehaviour {
     [SerializeField] private float tweenTime;
-
+    [SerializeField] private Vector3 preTouchRotation;
 
 
     public GameObject CastRay(Ray ray) {
         RaycastHit hit;
-
+        
         if (Physics.Raycast(ray, out hit)) {
             GameObject collided = hit.transform.gameObject;
             
             if (collided.TryGetComponent(out SelectableObject sO)) {
+                preTouchRotation = transform.rotation.eulerAngles;
+                print(preTouchRotation);
                 return sO.gameObject;
             }
 
@@ -27,7 +29,12 @@ public class CameraPointerBehaviour : MonoBehaviour {
     }
 
     public void MoveToPOI(Transform pOI) {
-        transform.DOMove(pOI.position, 1);
-        transform.DORotate(pOI.rotation.eulerAngles, 1);
+        transform.DOMove(pOI.position, tweenTime);
+        transform.DORotate(pOI.rotation.eulerAngles, tweenTime);
+    }
+    
+    public void GoBack(Vector3 originalPos) {
+        transform.DOMove(originalPos, tweenTime);
+        transform.DORotate(preTouchRotation, tweenTime);
     }
 }
