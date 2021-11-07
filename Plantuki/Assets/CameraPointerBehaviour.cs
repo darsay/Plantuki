@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
+using DigitalRubyShared;
 
 public class CameraPointerBehaviour : MonoBehaviour {
     [SerializeField] private float tweenTime;
@@ -33,8 +34,10 @@ public class CameraPointerBehaviour : MonoBehaviour {
         transform.DORotate(pOI.rotation.eulerAngles, tweenTime);
     }
     
-    public void GoBack(Vector3 originalPos) {
+    public void GoBack(Vector3 originalPos, FingersRotateCameraComponentScript rotator) {
         transform.DOMove(originalPos, tweenTime);
-        transform.DORotate(preTouchRotation, tweenTime);
+        transform.DORotate(preTouchRotation, tweenTime).OnComplete(() => {
+            rotator.enabled = true;
+        });
     }
 }

@@ -2,41 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using DigitalRubyShared;
 using UnityEngine;
 using UnityEngine.Events;
+using TouchPhase = UnityEngine.TouchPhase;
 
-[RequireComponent(typeof(CameraPointerBehaviour), typeof(CameraRotationBehaviour))]
+[RequireComponent(typeof(CameraPointerBehaviour))]
 public class CameraPointerController : MonoBehaviour {
     public UnityEvent OnObjectSelected;
     public UnityEvent OnObjectDeselected;
     private CameraPointerBehaviour _cameraPointerBehaviour;
-    private CameraRotationBehaviour _cameraRotationBehaviour;
     private Vector3 originalPos;
     
    [SerializeField] private GameObject _beginningtarget;
    [SerializeField] private GameObject _endTarget;
+   private FingersRotateCameraComponentScript _cameraRotator;
+   
+   
 
     private void Awake() {
         _cameraPointerBehaviour = GetComponent<CameraPointerBehaviour>();
-        _cameraRotationBehaviour = GetComponent<CameraRotationBehaviour>();
+        _cameraRotator = GetComponent<FingersRotateCameraComponentScript>();
         originalPos = transform.position;
     }
 
     private void OnEnable() {
         OnObjectDeselected.AddListener(BackToOriginal);
+        OnObjectSelected.AddListener(() => _cameraRotator.enabled = false);
     }
 
     private void OnDisable() {
         OnObjectDeselected.RemoveListener(BackToOriginal);
+        OnObjectSelected.RemoveListener(() => _cameraRotator.enabled = false);
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            _beginningtarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.mousePosition));
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
+            _beginningtarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.GetTouch(0).position));
         }
         
-        if (Input.GetMouseButtonUp(0)) {
-            _endTarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.mousePosition));
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
+            _endTarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.GetTouch(0).position));
             
             if (_beginningtarget == _endTarget && _endTarget!=null) {
                 OnObjectSelected.Invoke();
@@ -51,7 +57,7 @@ public class CameraPointerController : MonoBehaviour {
     }
 
     public void BackToOriginal() {
-        _cameraPointerBehaviour.GoBack(originalPos);
+        _cameraPointerBehaviour.GoBack(originalPos, _cameraRotator);
     }
 
     public void OnDeselected() {
