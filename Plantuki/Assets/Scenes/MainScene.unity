@@ -612,10 +612,9 @@ GameObject:
   - component: {fileID: 576644404}
   - component: {fileID: 576644403}
   - component: {fileID: 576644402}
-  - component: {fileID: 576644406}
-  - component: {fileID: 576644405}
   - component: {fileID: 576644408}
   - component: {fileID: 576644407}
+  - component: {fileID: 576644405}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -681,13 +680,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576644401}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.36113632, z: 0, w: 0.93251306}
   m_LocalPosition: {x: 1.66, y: 4.94, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 42.34, z: 0}
 --- !u!114 &576644405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,25 +696,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 576644401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47804260fc0cdc542be15da94f23e0be, type: 3}
+  m_Script: {fileID: 11500000, guid: c916861fd19697d419423ebaf2397962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRotationEnabled: 1
---- !u!114 &576644406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576644401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb85684cd8501ff47ae19830e1801add, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damping: 50
-  decelerationForce: 8
-  isScrolling: 0
+  TransformToRotate: {fileID: 576644404}
+  NumberOfTouchesRequired: 1
+  GestureView: {fileID: 0}
+  RotationSpeed: 20
+  RotationXMinMax: {x: -60, y: 60}
+  RotationDampening: 0.955
+  InitialRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &576644407
 MonoBehaviour:
   m_ObjectHideFlags: 0
