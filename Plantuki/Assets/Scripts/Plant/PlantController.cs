@@ -8,6 +8,8 @@ public class PlantController : MonoBehaviour
 {
     DateTime dateTime; // Tests for storing the date & time
 
+    private enum LightConditions { LIGHT, DARK, NEUTRAL}
+
     // Timers, in seconds
     [SerializeField] private float checkStatusSeconds = 1f;
     [SerializeField] private float lowerStatsSeconds = 1f;
@@ -25,7 +27,7 @@ public class PlantController : MonoBehaviour
    
 
     /*
-     *    LOWER STATS (for any reason)
+     *    CHANGE STATS (for any reason)
      */
     private void LowerStats()
     {
@@ -33,8 +35,26 @@ public class PlantController : MonoBehaviour
         PlantBehaviour.instance.MakeHungry(amoutLoweredStats);
         PlantBehaviour.instance.MakeDry(amoutLoweredStats);
         PlantBehaviour.instance.MakeDirty(amoutLoweredStats);
-        PlantBehaviour.instance.MakeDark(amoutLoweredStats);
     }
+
+    private void ChangeLightning(LightConditions value, float amount)
+    {
+        // Changes Plantuki's light depending on a value and amount given
+
+        switch(value)
+        {
+            case LightConditions.LIGHT:
+                PlantBehaviour.instance.GiveLight(amount);
+                break;
+            case LightConditions.DARK:
+                PlantBehaviour.instance.MakeDark(amount);
+                break;
+            case LightConditions.NEUTRAL:
+                // Do nothing
+                break;
+        }
+    }
+
 
 
     /*
