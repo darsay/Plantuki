@@ -22,9 +22,44 @@ public class PlantController : MonoBehaviour
         // Functions invoked every x seconds.
         InvokeRepeating("CheckStats", 0, checkStatusSeconds); 
         InvokeRepeating("LowerStats", 0, lowerStatsSeconds);
+
+        CheckTimeSinceLastGame();
     }
 
+    private void CheckTimeSinceLastGame()
+    {
+        // Checks the time passed since the player last played Plantuki
+        // and lowers the stats depending on it.
+
+        string closedtime = PlayerPrefs.GetString("closed-time");
+        
+        TimeSpan timeSpan = new TimeSpan();
+        DateTime now = new DateTime();
+        now = DateTime.UtcNow;
+
+        DateTime lastClosedTime = Convert.ToDateTime(closedtime);
+
+        timeSpan = now - lastClosedTime;
+        Debug.Log(timeSpan);
+    }
    
+    void OnApplicationQuit()
+    {
+        dateTime = DateTime.UtcNow;
+
+        PlayerPrefs.SetString("closed-time", dateTime.ToString());
+        Debug.Log("Application ended in " + dateTime);
+    }
+
+    private int ConvertToSeconds(int hours, int minutes, int seconds)
+    {
+        int totalSecs = 0;
+        totalSecs += seconds;
+        totalSecs += minutes * 60;
+        totalSecs += hours * 60 * 60;
+
+        return totalSecs;
+    }
 
     /*
      *    CHANGE STATS (for any reason)
@@ -55,7 +90,7 @@ public class PlantController : MonoBehaviour
         }
     }
 
-
+    
 
     /*
     *      CHECK STATS
