@@ -78,10 +78,10 @@ public class PlantController : MonoBehaviour
             case 50f:
                 Debug.Log("Your plant is starting to feel hungry");
                 break;
-            case 25f:
+            case 15f:
                 Debug.Log("Your plant is hungry");
                 break;
-            case 3f:
+            case 5f:
                 Debug.Log("Your plant starving to death!");
                 break;
             case 0f:
@@ -96,11 +96,14 @@ public class PlantController : MonoBehaviour
             case 100f:
                 Debug.Log("Your plant is wet and happy");
                 break;
-            case 40f:
+            case 50f:
                 Debug.Log("Your plant is starting to feel thirsty");
                 break;
-            case 10f:
-                Debug.Log("Your plant is very thirsty!");
+            case 15f:
+                Debug.Log("Your plant is thirsty!");
+                break;
+            case 5f:
+                Debug.Log("Your plant is VERY thirsty!");
                 break;
             case 0f:
                 Debug.Log("Your plant died of thirst.");
@@ -116,6 +119,9 @@ public class PlantController : MonoBehaviour
                 break;
             case 50f:
                 Debug.Log("Your plant is slightly dirty");
+                break;
+            case 15f:
+                Debug.Log("Your plant is dirty!");
                 break;
             case 5f:
                 Debug.Log("Your plant really needs a cleanup");
@@ -134,6 +140,9 @@ public class PlantController : MonoBehaviour
                 break;
             case 15f:
                 Debug.Log("Your plant needs light!");
+                break;
+            case 5f:
+                Debug.Log("Your plant is living in darkness");
                 break;
         }
     }
