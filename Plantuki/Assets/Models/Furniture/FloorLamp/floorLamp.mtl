@@ -1,0 +1,46 @@
+newmtl FloorLampSG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.25 0.25 0.25
+Ns 7.61
+newmtl FloorLampSG1
+illum 4
+Kd 0.06 0.04 0.03
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.33 0.33 0.33
+Ns 7.61
+newmtl FloorLampSG2
+illum 4
+Kd 0.80 0.51 0.04
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.13 0.13 0.13
+Ns 0.00
+newmtl FloorLampSG3
+illum 4
+Kd 0.80 0.80 0.80
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl FloorLampSG4
+illum 4
+Kd 0.80 0.80 0.80
+Ka 0.00 0.00 0.00
+Tf 0.65 0.65 0.65
+Ni 1.00
+Ks 0.25 0.25 0.25
+Ns 7.61
+newmtl FloorLampSG5
+illum 4
+Kd 0.80 0.80 0.80
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.13 0.13 0.13
+Ns 7.61
