@@ -11,57 +11,56 @@ public class PlantBehaviour : MonoBehaviour
     public static PlantBehaviour instance;
 
     // Plant needs with getters and setters
-    public float wetness { get; private set; }
-    public float satiety { get; private set; }
-    public float cleanliness { get; private set; }
-    public float lightness { get; private set; } // Light needs to be around 60 to be OK
+    public int wetness { get; private set; }
+    public int satiety { get; private set; }
+    public int cleanliness { get; private set; }
+    public int lightness { get; private set; } // Light needs to be around 60 to be OK
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
 
-        // Se inicializa a 100, deber�a cambiarse para guardar el estado entre partidas
-        this.wetness = 100f;
-        this.satiety = 100f;
-        this.cleanliness = 100f;
-        this.lightness = 100f;
+        // Se inicializa a 100, deberia cambiarse para guardar el estado entre partidas
+        this.wetness = 100;
+        this.satiety = 100;
+        this.cleanliness = 100;
+        this.lightness = 100;
     }
 
     /////////////////////////////////////////////////////////////
     /// INCREASE STATS
     /////////////////////////////////////////////////////////////
     #region  Increase stats
-    public void GiveWater(float f)
+    public void GiveWater(int f)
     {
+        wetness += f;
+        wetness = Mathf.Clamp(wetness, f, 100);
         
-            wetness += f;
-            if (wetness > 100)
-            {
-                wetness = 100;
-            }
-            
-            Notifications.SharedInstance.cancelNotification(0);
-            Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100);
-        
-        
+        // if (wetness > 100)
+        // {
+        //     wetness = 100;
+        // }
 
-    }
-    
-    public void GiveFood(float f)
-    {
-        if (satiety + f <= 100)
-            satiety += f;
-    }
-    public void GiveClean(float f)
-    {
-        if (cleanliness + f <= 100)
-            cleanliness += f;
+        Notifications.SharedInstance.cancelNotification(0);
+        Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100);
     }
 
-    public void GiveLight(float f)
+    public void GiveFood(int f)
     {
-        if (lightness + f <= 100)
-            lightness += f;
+        satiety += f;
+        satiety = Mathf.Clamp(satiety, f, 100);
+    }
+
+    public void GiveClean(int f)
+    {
+        cleanliness += f;
+        cleanliness = Mathf.Clamp(cleanliness, f, 100);
+    }
+
+    public void GiveLight(int f)
+    {
+        lightness += f;
+        lightness = Mathf.Clamp(lightness, f, 100);
     }
     #endregion
 
@@ -70,7 +69,7 @@ public class PlantBehaviour : MonoBehaviour
     /// DECREASE STATS
     /////////////////////////////////////////////////////////////
     #region  Decrease stats
-    public void DecreaseAll(float wet, float sat, float clean, float light)
+    public void DecreaseAll(int wet, int sat, int clean, int light)
     {
         if (wetness >= wet)
             wetness -= wet;
@@ -85,30 +84,27 @@ public class PlantBehaviour : MonoBehaviour
             lightness -= light;
     }
 
-    public void MakeDry(float f)
+    public void MakeDry(int f)
     {
         if (wetness >= f)
-        {
             wetness -= f;
-            UiManager.SharedInstance.wetness.text = wetness.ToString();
-        }
             
     }
 
-    public void MakeHungry(float f)
+    public void MakeHungry(int f)
     {
         if (satiety >= f)
             satiety -= f;
     }
 
-    public void MakeDirty(float f)
+    public void MakeDirty(int f)
     {
         if (cleanliness >= f)
             cleanliness -= f;
     }
 
 
-    public void MakeDark(float f)
+    public void MakeDark(int f)
     {
         if (lightness >= f)
             lightness -= f;

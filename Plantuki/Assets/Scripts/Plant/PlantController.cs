@@ -6,27 +6,45 @@ using System;
 
 public class PlantController : MonoBehaviour
 {
-    DateTime dateTime; // Tests for storing the date & time
-
-    private enum LightConditions { LIGHT, DARK, NEUTRAL}
+    private enum WindowState { OPEN, CLOSED, MIDOPEN}
 
     // Timers, in seconds
     [SerializeField] private float checkStatusSeconds = 1f;
-    [SerializeField] private float lowerStatsSeconds = 1f;
+    [SerializeField] private float lowerStatsSeconds = 10f; // Seconds to lower one point of any stat
 
-    [SerializeField] private float amoutLoweredStats = 1f;
+    [SerializeField] private int amoutLoweredStats = 1;
+
+    [SerializeField] private int pointsChangedPerHourWhileOut = 1;   // Points changed per hour while NOT in the app
 
 
-    private void Start()
+    private void Awake()
     {
         // Functions invoked every x seconds.
         InvokeRepeating("CheckStats", 0, checkStatusSeconds); 
-        InvokeRepeating("LowerStats", 0, lowerStatsSeconds);
+        InvokeRepeating("ChangeStats", 0, lowerStatsSeconds);
 
-        CheckTimeSinceLastGame();
+        // Stats changing on game start
+        LowerStatsBasedOnLastGame( CheckTimeSinceLastGame() );
     }
 
-    private void CheckTimeSinceLastGame()
+    /*
+     *    CHANGE STATS (for any reason)
+     */
+    #region Lower stats since last game
+    private void LowerStatsBasedOnLastGame(int seconds)
+    {
+        float changeFactor = pointsChangedPerHourWhileOut/60; 
+
+        int amount = Mathf.RoundToInt(changeFactor * seconds); // Rounds the amount to integer
+        PlantBehaviour.instance.MakeDry(amount);
+        PlantBehaviour.instance.MakeHungry(amount);
+        PlantBehaviour.instance.MakeDirty(amount);
+
+        //  TO BE IMPLEMENTED!!!
+        //ChangeLightning(SceneController.instance.currentLightning, amount);
+    }
+
+    private int CheckTimeSinceLastGame()
     {
         // Checks the time passed since the player last played Plantuki
         // and lowers the stats depending on it.
@@ -40,56 +58,55 @@ public class PlantController : MonoBehaviour
         DateTime lastClosedTime = Convert.ToDateTime(closedtime);
 
         timeSpan = now - lastClosedTime;
-        Debug.Log(timeSpan);
+
+        int totalSecondsSinceLastGame = (int) Mathf.Round( (float)timeSpan.TotalSeconds );
+        Debug.Log("Seconds passed since last game: " + totalSecondsSinceLastGame);
+
+        return totalSecondsSinceLastGame;
     }
-   
+
     void OnApplicationQuit()
     {
-        dateTime = DateTime.UtcNow;
+        // Stores the current time (used for the next game start)
+        DateTime dateTime = DateTime.UtcNow;
 
         PlayerPrefs.SetString("closed-time", dateTime.ToString());
         Debug.Log("Application ended in " + dateTime);
     }
+    #endregion
 
-    private int ConvertToSeconds(int hours, int minutes, int seconds)
+    #region Lower stats while in the game
+    
+    private void ChangeStats()
     {
-        int totalSecs = 0;
-        totalSecs += seconds;
-        totalSecs += minutes * 60;
-        totalSecs += hours * 60 * 60;
-
-        return totalSecs;
-    }
-
-    /*
-     *    CHANGE STATS (for any reason)
-     */
-    private void LowerStats()
-    {
-        // Lowers Plantuki's stats each x time.
+        // Changes Plantuki's stats each x time.
         PlantBehaviour.instance.MakeHungry(amoutLoweredStats);
         PlantBehaviour.instance.MakeDry(amoutLoweredStats);
         PlantBehaviour.instance.MakeDirty(amoutLoweredStats);
+
+        //  TO BE IMPLEMENTED!!!
+        //ChangeLightning(SceneController.instance.currentLightning, amoutLoweredStats);
     }
 
-    private void ChangeLightning(LightConditions value, float amount)
+    #endregion
+
+    private void ChangeLightning(WindowState value, int amount)
     {
         // Changes Plantuki's light depending on a value and amount given
 
         switch(value)
         {
-            case LightConditions.LIGHT:
+            case WindowState.OPEN:
                 PlantBehaviour.instance.GiveLight(amount);
                 break;
-            case LightConditions.DARK:
+            case WindowState.CLOSED:
                 PlantBehaviour.instance.MakeDark(amount);
                 break;
-            case LightConditions.NEUTRAL:
-                // Do nothing
+            case WindowState.MIDOPEN:
+                 PlantBehaviour.instance.MakeDark(amount/10);
                 break;
         }
     }
-
     
 
     /*
@@ -107,19 +124,19 @@ public class PlantController : MonoBehaviour
     {
         switch (PlantBehaviour.instance.satiety)
         {
-            case 100f:
+            case 100:
                 Debug.Log("Your plant is full");
                 break;
-            case 50f:
+            case 50:
                 Debug.Log("Your plant is starting to feel hungry");
                 break;
-            case 15f:
+            case 15:
                 Debug.Log("Your plant is hungry");
                 break;
-            case 5f:
+            case 5:
                 Debug.Log("Your plant starving to death!");
                 break;
-            case 0f:
+            case 0:
                 Debug.Log("Your plant starved.");
                 break;
         }
@@ -128,19 +145,19 @@ public class PlantController : MonoBehaviour
     {
         switch (PlantBehaviour.instance.wetness)
         {
-            case 100f:
+            case 100:
                 Debug.Log("Your plant is wet and happy");
                 break;
-            case 50f:
+            case 50:
                 Debug.Log("Your plant is starting to feel thirsty");
                 break;
-            case 15f:
+            case 15:
                 Debug.Log("Your plant is thirsty!");
                 break;
-            case 5f:
+            case 5:
                 Debug.Log("Your plant is VERY thirsty!");
                 break;
-            case 0f:
+            case 0:
                 Debug.Log("Your plant died of thirst.");
                 break;
         }
@@ -149,16 +166,16 @@ public class PlantController : MonoBehaviour
     {
         switch (PlantBehaviour.instance.cleanliness)
         {
-            case 100f:
+            case 100:
                 Debug.Log("Your plant is clean");
                 break;
-            case 50f:
+            case 50:
                 Debug.Log("Your plant is slightly dirty");
                 break;
-            case 15f:
+            case 15:
                 Debug.Log("Your plant is dirty!");
                 break;
-            case 5f:
+            case 5:
                 Debug.Log("Your plant really needs a cleanup");
                 break;
         }
@@ -167,16 +184,16 @@ public class PlantController : MonoBehaviour
     {
         switch (PlantBehaviour.instance.lightness)
         {
-            case 100f:
+            case 100:
                 Debug.Log("Your plant has too much light");
                 break;
-            case 50f:
+            case 50:
                 Debug.Log("Your plant is correctly iluminated");
                 break;
-            case 15f:
+            case 15:
                 Debug.Log("Your plant needs light!");
                 break;
-            case 5f:
+            case 5:
                 Debug.Log("Your plant is living in darkness");
                 break;
         }
