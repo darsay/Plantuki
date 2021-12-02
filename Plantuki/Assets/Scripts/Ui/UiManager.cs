@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UiManager : MonoBehaviour
@@ -8,6 +9,18 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject mainRoomUI;
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject inventoryUI;
+
+    public TextMeshProUGUI wetness;
+
+    public static UiManager SharedInstance;
+    
+    private void Awake()
+    {
+        if (SharedInstance == null)
+        {
+            SharedInstance = this;
+        }
+    }
     
     // Start is called before the first frame update
     void Start()

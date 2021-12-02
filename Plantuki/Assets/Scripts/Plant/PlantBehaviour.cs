@@ -20,7 +20,7 @@ public class PlantBehaviour : MonoBehaviour
     {
         instance = this;
 
-        // Se inicializa a 100, debería cambiarse para guardar el estado entre partidas
+        // Se inicializa a 100, deberï¿½a cambiarse para guardar el estado entre partidas
         this.wetness = 100f;
         this.satiety = 100f;
         this.cleanliness = 100f;
@@ -33,9 +33,20 @@ public class PlantBehaviour : MonoBehaviour
     #region  Increase stats
     public void GiveWater(float f)
     {
-        if (wetness + f <= 100)
+        
             wetness += f;
+            if (wetness > 100)
+            {
+                wetness = 100;
+            }
+            
+            Notifications.SharedInstance.cancelNotification(0);
+            Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100);
+        
+        
+
     }
+    
     public void GiveFood(float f)
     {
         if (satiety + f <= 100)
@@ -77,7 +88,11 @@ public class PlantBehaviour : MonoBehaviour
     public void MakeDry(float f)
     {
         if (wetness >= f)
+        {
             wetness -= f;
+            UiManager.SharedInstance.wetness.text = wetness.ToString();
+        }
+            
     }
 
     public void MakeHungry(float f)
