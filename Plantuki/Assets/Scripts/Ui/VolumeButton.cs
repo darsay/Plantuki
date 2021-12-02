@@ -28,7 +28,7 @@ public class VolumeButton : MonoBehaviour {
 
     void HideShowMenu() {
         if (_audioMenu.activeSelf) {
-            _audioMenu.GetComponent<DisableAnim>().DisableMenu();
+            _audioMenu.GetComponent<DisableAnim>().DisablePlay();
             
             finger.enabled = true;
         }

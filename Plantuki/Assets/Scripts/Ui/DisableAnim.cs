@@ -11,7 +11,7 @@ public class DisableAnim : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    public void DisableMenu() {
+    public void DisablePlay() {
         _rectTransform.DOScale(Vector3.zero, tweenTime).SetEase(Ease.InElastic, 1, 0.4f)
             .OnComplete(() => gameObject.SetActive(false));
     }

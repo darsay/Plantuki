@@ -19,7 +19,6 @@ public class CameraPointerBehaviour : MonoBehaviour {
             
             if (collided.TryGetComponent(out SelectableObject sO)) {
                 preTouchRotation = transform.rotation.eulerAngles;
-                print(preTouchRotation);
                 return sO.gameObject;
             }
 
