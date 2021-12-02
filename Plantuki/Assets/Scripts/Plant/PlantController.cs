@@ -22,6 +22,7 @@ public class PlantController : MonoBehaviour
         // Functions invoked every x seconds.
         InvokeRepeating("CheckStats", 0, checkStatusSeconds); 
         InvokeRepeating("LowerStats", 0, lowerStatsSeconds);
+        Debug.Log("Hola");
     }
 
    
