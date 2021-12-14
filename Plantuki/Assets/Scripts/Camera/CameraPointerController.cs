@@ -21,6 +21,10 @@ public class CameraPointerController : MonoBehaviour {
 
    [SerializeField] private GameObject _backToRoomButton;
    [SerializeField] private GameObject _settingsButton;
+
+   [SerializeField]private float touchTimeThreshold;
+   private float touchTime;
+   private bool fingerIn;
    
    
 
@@ -54,20 +58,27 @@ public class CameraPointerController : MonoBehaviour {
     private void Update() {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
             _beginningtarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.GetTouch(0).position));
+            touchTime = 0;
+            fingerIn = true;
         }
         
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
             _endTarget = _cameraPointerBehaviour.CastRay(Camera.main.ScreenPointToRay(Input.GetTouch(0).position));
             
-            if (_beginningtarget == _endTarget && _endTarget!=null) {
+            if (_beginningtarget == _endTarget && _endTarget!=null && touchTime<touchTimeThreshold) {
                 OnObjectSelected.Invoke();
+                _endTarget.GetComponent<SelectableObject>().onSelected.Invoke();
                 _cameraPointerBehaviour.MoveToPOI(_endTarget.GetComponent<SelectableObject>().GetPOI());
             }
 
             _beginningtarget = null;
             _endTarget = null;
+            fingerIn = false;
         }
 
+        if (fingerIn) {
+            touchTime += Time.deltaTime;
+        }
         
     }
 
