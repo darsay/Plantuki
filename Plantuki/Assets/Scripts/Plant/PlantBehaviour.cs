@@ -42,25 +42,31 @@ public class PlantBehaviour : MonoBehaviour
         // }
 
         Notifications.SharedInstance.cancelNotification(0);
-        Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100);
+        Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100*2880);
     }
 
     public void GiveFood(int f)
     {
         satiety += f;
         satiety = Mathf.Clamp(satiety, f, 100);
+        Notifications.SharedInstance.cancelNotification(1);
+        Notifications.SharedInstance.sendNotification("Tiene hambre", "vuelve pronto", 0, satiety/100*2880);
     }
 
     public void GiveClean(int f)
     {
         cleanliness += f;
         cleanliness = Mathf.Clamp(cleanliness, f, 100);
+        
+        Notifications.SharedInstance.cancelNotification(0);
+        Notifications.SharedInstance.sendNotification("Está sucia", "vuelve pronto", 0, cleanliness/100*2880);
     }
 
     public void GiveLight(int f)
     {
         lightness += f;
         lightness = Mathf.Clamp(lightness, f, 100);
+        
     }
     #endregion
 
