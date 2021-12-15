@@ -12,12 +12,12 @@ public class PlantController : MonoBehaviour
     [SerializeField] private float checkStatusSeconds = 1f;
     [SerializeField] private float lowerStatsSeconds = 10f; // Seconds to lower one point of any stat
 
-    [SerializeField] private int amoutLoweredStats = 1;
+    [SerializeField] private int amoutChangedStats = 1;
 
     [SerializeField] private int pointsChangedPerHourWhileOut = 1;   // Points changed per hour while NOT in the app
 
 
-    private void Awake()
+    private void Start() 
     {
         // Functions invoked every x seconds.
         InvokeRepeating("CheckStats", 0, checkStatusSeconds); 
@@ -41,7 +41,7 @@ public class PlantController : MonoBehaviour
         PlantBehaviour.instance.MakeDirty(amount);
 
         //  TO BE IMPLEMENTED!!!
-        //ChangeLightning(SceneController.instance.currentLightning, amount);
+        ChangeLightning(amount);
     }
 
     private int CheckTimeSinceLastGame()
@@ -80,31 +80,36 @@ public class PlantController : MonoBehaviour
     private void ChangeStats()
     {
         // Changes Plantuki's stats each x time.
-        PlantBehaviour.instance.MakeHungry(amoutLoweredStats);
-        PlantBehaviour.instance.MakeDry(amoutLoweredStats);
-        PlantBehaviour.instance.MakeDirty(amoutLoweredStats);
+        PlantBehaviour.instance.MakeHungry(amoutChangedStats);
+        PlantBehaviour.instance.MakeDry(amoutChangedStats);
+        PlantBehaviour.instance.MakeDirty(amoutChangedStats);
 
-        //  TO BE IMPLEMENTED!!!
-        //ChangeLightning(SceneController.instance.currentLightning, amoutLoweredStats);
+        //  Changes the light based on stats
+        ChangeLightning(amoutChangedStats);
     }
 
     #endregion
 
-    private void ChangeLightning(WindowState value, int amount)
+    private void ChangeLightning(int amount)
     {
         // Changes Plantuki's light depending on a value and amount given
-
-        switch(value)
+        GameObject window = GameObject.Find("Blind"); // Important, name of the gameobject!!
+        float windowY = window.transform.localPosition.y;
+        
+        if(windowY > 0.5)
         {
-            case WindowState.OPEN:
-                PlantBehaviour.instance.GiveLight(amount);
-                break;
-            case WindowState.CLOSED:
-                PlantBehaviour.instance.MakeDark(amount);
-                break;
-            case WindowState.MIDOPEN:
-                 PlantBehaviour.instance.MakeDark(amount/10);
-                break;
+            // Full light
+            PlantBehaviour.instance.GiveLight(amount);
+        }
+        else if(windowY > 0.2)
+        {
+            // Medium light
+            PlantBehaviour.instance.MakeDark(amount/10);
+        }
+        else
+        {
+            // Low light
+            PlantBehaviour.instance.MakeDark(amount);
         }
     }
     
