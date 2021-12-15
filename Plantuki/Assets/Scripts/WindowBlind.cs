@@ -31,7 +31,7 @@ public class WindowBlind : MonoBehaviour {
     }
 
     void UpdateBlind() {
-        var futureValue = blind.localPosition + Vector3.up * (Input.GetTouch(0).deltaPosition.y * 0.001f);
+        var futureValue = blind.localPosition + Vector3.up * (Input.GetTouch(0).deltaPosition.y * 0.0001f);
 
         
         if (futureValue.y > top) {
