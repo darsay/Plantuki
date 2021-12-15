@@ -20,7 +20,7 @@ public class CameraPointerController : MonoBehaviour {
    private FingersRotateCameraComponentScript _cameraRotator;
 
    [SerializeField] private GameObject _backToRoomButton;
-   [SerializeField] private GameObject _settingsButton;
+   [SerializeField] private GameObject _generalUi;
 
    [SerializeField]private float touchTimeThreshold;
    private float touchTime;
@@ -37,22 +37,20 @@ public class CameraPointerController : MonoBehaviour {
     private void OnEnable() {
         OnObjectDeselected.AddListener(BackToOriginal);
         OnObjectDeselected.AddListener(_backToRoomButton.GetComponent<DisableAnim>().DisablePlay);
-        OnObjectDeselected.AddListener(() => _settingsButton.SetActive(true));
+        OnObjectDeselected.AddListener(() => _generalUi.SetActive(true));
         
         OnObjectSelected.AddListener(() => _cameraRotator.enabled = false);
         OnObjectSelected.AddListener(() => _backToRoomButton.SetActive(true));
-        OnObjectSelected.AddListener(_settingsButton.GetComponent<DisableAnim>().DisablePlay);
         
     }
 
     private void OnDisable() {
         OnObjectDeselected.RemoveListener(BackToOriginal);
         OnObjectDeselected.RemoveListener(_backToRoomButton.GetComponent<DisableAnim>().DisablePlay);
-        OnObjectDeselected.RemoveListener(() => _settingsButton.SetActive(true));
+        OnObjectDeselected.RemoveListener(() => _generalUi.SetActive(true));
         
         OnObjectSelected.RemoveListener(() => _cameraRotator.enabled = false);
         OnObjectSelected.RemoveListener(() => _backToRoomButton.SetActive(true));
-        OnObjectSelected.RemoveListener(_settingsButton.GetComponent<DisableAnim>().DisablePlay);
     }
 
     private void Update() {
