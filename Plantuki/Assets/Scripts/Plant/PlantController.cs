@@ -24,7 +24,7 @@ public class PlantController : MonoBehaviour
         InvokeRepeating("ChangeStats", 0, lowerStatsSeconds);
 
         // Stats changing on game start
-        LowerStatsBasedOnLastGame( CheckTimeSinceLastGame() );
+        LowerStatsBasedOnLastGame(CheckTimeSinceLastGame());
     }
 
     /*
