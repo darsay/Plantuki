@@ -107,7 +107,10 @@ public class PlantBehaviour : MonoBehaviour
     public void MakeDark(int f)
     {
         if (lightness >= f)
+        {
             lightness -= f;
+        }
+        
     }
     #endregion
 }
