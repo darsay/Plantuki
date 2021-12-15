@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
 
     public Dictionary<string,int> availablesItemsPrices = new Dictionary<string, int>();
 
-    public List<GameObject> availableItems = new List<GameObject>();
+    public List<GameObject> availableItems;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class ShopManager : MonoBehaviour
         
     }
 
-    void addItems()
+    private void addItems()
     {
         availablesItemsPrices.Add("cowboyHat", 10);
         availablesItemsPrices.Add("glasses", 20);
@@ -42,7 +42,32 @@ public class ShopManager : MonoBehaviour
         availablesItemsPrices.Add("superMarioSkin", 150);
         availablesItemsPrices.Add("chungaSkin", 50);
         availablesItemsPrices.Add("guapingaSkin", 75);
-        
-        
     }
+
+    private List<GameObject> GetUnownedItems()
+    {
+        // Returns a list of the unowned items to show in the shop
+        //  based on the list of total available items to buy
+
+        // For this function to work, the GameObjects must have the same name as
+        //  the names in the string list
+        List<string> unownedName = PlantItemsManager.instance.myItems;
+        List<GameObject> unowned = availableItems;
+        
+        for(int i = 0; i < unowned.Count; i++)
+        {
+            for(int j = 0; j < unownedName.Count; j++)
+            {
+                if(unowned[i].name.Equals(unownedName[j])) // If the items is already owned, delete it from the unowned list
+                {
+                    unowned.Remove(unowned[i]);
+                    break;  // Exist the loop when removed
+                }  
+                    
+            }
+        }
+
+        return unowned;
+    }
+
 }

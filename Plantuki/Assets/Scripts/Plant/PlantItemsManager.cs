@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Schema;
 using UnityEngine;
 
 public class PlantItemsManager : MonoBehaviour
 {
 
-    private List<string> myItems = new List<string>();
+    public static PlantItemsManager instance;
+    public List<string> myItems = new List<string>();
+
+    private void Awake() 
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +36,7 @@ public class PlantItemsManager : MonoBehaviour
         }
     }
 
-    public void addItem(string name)
+    public void BuyItem(string name)
     {
         PlayerPrefs.SetString(name,"");
         PlayerPrefs.Save();
