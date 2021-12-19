@@ -40,5 +40,6 @@ public class PlantItemsManager : MonoBehaviour
     {
         PlayerPrefs.SetString(name,"");
         PlayerPrefs.Save();
+        
     }
 }

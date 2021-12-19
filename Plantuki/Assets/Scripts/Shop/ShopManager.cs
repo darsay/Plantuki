@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShopManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class ShopManager : MonoBehaviour
 
     public List<GameObject> availableItems;
 
+    private GameObject shopContent;
+    
+
     private void Awake()
     {
         instance = this;
@@ -19,29 +23,28 @@ public class ShopManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        shopContent = GameObject.Find("Content");
         addItems();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void addItems()
     {
-        availablesItemsPrices.Add("cowboyHat", 10);
-        availablesItemsPrices.Add("glasses", 20);
-        availablesItemsPrices.Add("diadem", 50);
-        availablesItemsPrices.Add("crown", 75);
+        availablesItemsPrices.Add("cowboyHat", 200);
+        availablesItemsPrices.Add("diadema", 300);
+        availablesItemsPrices.Add("crown", 2500);
         
-        availablesItemsPrices.Add("chadPot", 10);
-        availablesItemsPrices.Add("pipelinePot", 20);
-        availablesItemsPrices.Add("andalucianPot", 50);
+        availablesItemsPrices.Add("modernPot", 220);
+        availablesItemsPrices.Add("pipelinePot", 600);
+        availablesItemsPrices.Add("andalucianPot", 420);
         
-        availablesItemsPrices.Add("superMarioSkin", 150);
-        availablesItemsPrices.Add("chungaSkin", 50);
-        availablesItemsPrices.Add("guapingaSkin", 75);
+        availablesItemsPrices.Add("piranaSkin", 550);
+        availablesItemsPrices.Add("flamencoSkin", 400);
+        availablesItemsPrices.Add("tangerineSkin", 300);
     }
 
     private List<GameObject> GetUnownedItems()
@@ -68,6 +71,83 @@ public class ShopManager : MonoBehaviour
         }
 
         return unowned;
+    }
+
+
+    public void showAll()
+    {
+        foreach (Transform item in shopContent.transform)
+        {
+            item.gameObject.SetActive(true);
+        }
+    }
+    
+    public void showHats()
+    {
+        foreach (Transform item in shopContent.transform)
+        {
+            if (item.gameObject.CompareTag("Hats"))
+            {
+                item.gameObject.SetActive(true);
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    public void showSkins()
+    {
+        foreach (Transform item in shopContent.transform)
+        {
+            if (item.gameObject.CompareTag("Skins"))
+            {
+                item.gameObject.SetActive(true);
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    public void showPots()
+    {
+        foreach (Transform item in shopContent.transform)
+        {
+            if (item.gameObject.CompareTag("Pots"))
+            {
+                item.gameObject.SetActive(true);
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void checkItemsOwned()
+    {
+        foreach (Transform item in shopContent.transform)
+        {
+            if (PlantItemsManager.instance.myItems.Contains(item.name))
+            {
+                item.GetChild(0).gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void buyItem(string ItemName)
+    {
+        if (CoinsManager.instance.myCoins >= availablesItemsPrices[ItemName])
+        {
+            PlantItemsManager.instance.myItems.Add(ItemName);
+            PlantItemsManager.instance.BuyItem(ItemName);
+            checkItemsOwned();
+            CoinsManager.instance.modifyCoins(-1*availablesItemsPrices[ItemName]);
+            
+        }
     }
 
 }
