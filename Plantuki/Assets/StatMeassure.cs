@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatMeassure : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class StatMeassure : MonoBehaviour
     
     [SerializeField]private RectTransform maskRt;
     [SerializeField]private RectTransform meassure;
+    private Image progressImg;
 
     private PlantBehaviour plantBehaviour;
+
+    [SerializeField] private Color[] colors;
     
     delegate void StatMeassuring();
     private StatMeassuring meassureUpdate;
@@ -28,6 +32,7 @@ public class StatMeassure : MonoBehaviour
 
     private void Awake() {
         plantBehaviour = FindObjectOfType<PlantBehaviour>();
+        progressImg = meassure.GetComponent<Image>();
 
         meassureUpdate = SelectStat(statToMeassure);
         bottom = -maskRt.rect.height;
@@ -62,23 +67,65 @@ public class StatMeassure : MonoBehaviour
         
         meassure.anchoredPosition = new Vector2(0,
             bottom + (-bottom) * plantBehaviour.cleanliness / 100);
+
+        if (plantBehaviour.cleanliness < 50) {
+            progressImg.color = colors[1];
+        }
+
+        if (plantBehaviour.cleanliness >= 50) {
+            progressImg.color = colors[0];
+        }
+        
     }
 
     void LightUpdate() {
         
         meassure.anchoredPosition = new Vector2(0,
             bottom + (-bottom) * plantBehaviour.lightness / 100);
+        
+        if (plantBehaviour.lightness < 20) {
+            progressImg.color = colors[0];
+            return;
+        }
+        
+        if (plantBehaviour.lightness >80) {
+            progressImg.color = colors[2];
+            return;
+        }
+        
+        progressImg.color = colors[1];
+
+        
     }
 
     void HungerUpdate() {
        meassure.anchoredPosition = new Vector2(0,
            bottom + (-bottom) * plantBehaviour.satiety / 100);
+       
+       if (plantBehaviour.satiety < 50) {
+           progressImg.color = colors[1];
+           return;
+       }
+
+       if (plantBehaviour.satiety >= 50) {
+           progressImg.color = colors[0];
+       }
     }
 
     void WaterUpdate() {
         
         meassure.anchoredPosition = new Vector2(0,
             bottom + (-bottom) * plantBehaviour.wetness / 100);
+        
+        if (plantBehaviour.wetness < 50) {
+            progressImg.color = colors[1];
+            return;
+        }
+
+        if (plantBehaviour.wetness >= 50) {
+            progressImg.color = colors[0];
+            return;
+        }
         
     }
     

@@ -46,7 +46,6 @@ public class CameraPointerController : MonoBehaviour {
 
     private void OnDisable() {
         OnObjectDeselected.RemoveListener(BackToOriginal);
-        OnObjectDeselected.RemoveListener(_backToRoomButton.GetComponent<DisableAnim>().DisablePlay);
         OnObjectDeselected.RemoveListener(() => _generalUi.SetActive(true));
         
         OnObjectSelected.RemoveListener(() => _cameraRotator.enabled = false);
