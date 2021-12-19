@@ -17,6 +17,6 @@ public class PopUpAnim : MonoBehaviour {
 
     private void OnEnable() {
         _rectTransform.localScale = Vector3.zero;
-        _rectTransform.DOScale(originalSize, tweenTime).SetEase(Ease.OutElastic, 1, 0.4f);
+        _rectTransform.DOScale(originalSize, tweenTime).SetEase(Ease.OutElastic, 1, 0f);
     }
 }
