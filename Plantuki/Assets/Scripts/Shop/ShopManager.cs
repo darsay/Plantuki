@@ -20,10 +20,12 @@ public class ShopManager : MonoBehaviour
         instance = this;
     }
 
+
     // Start is called before the first frame update
     void Start()
     {
         shopContent = GameObject.Find("Content");
+        checkItemsOwned();
         addItems();
     }
 
@@ -129,6 +131,7 @@ public class ShopManager : MonoBehaviour
 
     public void checkItemsOwned()
     {
+        print("Checking");
         foreach (Transform item in shopContent.transform)
         {
             if (PlantItemsManager.instance.myItems.Contains(item.name))
