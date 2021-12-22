@@ -13,20 +13,30 @@ public class ShopManager : MonoBehaviour
     public List<GameObject> availableItems;
 
     private GameObject shopContent;
-    
+
+
+    private void OnEnable()
+    {
+        //checkItemsOwned();
+    }
 
     private void Awake()
     {
         instance = this;
+        
+        addItems();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         shopContent = GameObject.Find("Content");
         checkItemsOwned();
-        addItems();
+        gameObject.SetActive(false);
+        CoinsManager.instance.setCoins();
+        
     }
 
     // Update is called once per frame
