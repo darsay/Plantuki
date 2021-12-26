@@ -8,7 +8,12 @@ public class CoinsManager : MonoBehaviour
 {
 
     public static CoinsManager instance;
+
+    public int myCoins = 1000;
     [SerializeField] private GameObject CoinsTMP;
+    private int coinsPerHourSinceLastGame = 5000;
+    private float upgradeCoinsOffset = 5f; // Seconds since the game started to call the function. Only used once
+    private float upgradeCoinsSeconds = 10f; // Interval in seconds to call the function every time
 
     private void Awake()
     {
@@ -20,24 +25,52 @@ public class CoinsManager : MonoBehaviour
         CoinsTMP = GameObject.Find("MyCoins");
     }
 
-    public int myCoins=1000;
+    
     // Start is called before the first frame update
     void Start()
-    {
-        
-        
+    {        
         if (PlayerPrefs.HasKey("coins"))
         {
             myCoins = PlayerPrefs.GetInt("coins");
-        }
-        
+            GiveCoinsBasedOnLastGame();
+        } 
+
+        InvokeRepeating("UpgradeCoins", upgradeCoinsOffset, upgradeCoinsSeconds); 
        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GiveCoinsBasedOnLastGame()
     {
-        
+        // Gives coins based on the time passed since the last game
+        int coins = 0;
+        int seconds = PlantController.instance.CheckTimeSinceLastGame();
+
+        coins = Mathf.RoundToInt((seconds/60)/60) * coinsPerHourSinceLastGame;  // coins per hour
+
+        modifyCoins(coins);
+    }
+
+    private void UpgradeCoins()
+    {
+        // Gives coins to the player based on Plantuki's stats
+        //  1 coin per stat taken care of. 
+
+        int coins = 0;
+
+        if(PlantBehaviour.instance.satiety > 75)
+            coins++;
+
+        if(PlantBehaviour.instance.wetness > 75)
+            coins++;
+
+        if(PlantBehaviour.instance.cleanliness > 75)
+            coins++;
+
+        if(PlantBehaviour.instance.lightness > 35 &&
+             PlantBehaviour.instance.lightness < 75)
+            coins++;
+
+        modifyCoins(coins);
     }
 
     public void modifyCoins(int coins)

@@ -8,6 +8,7 @@ public class PlantController : MonoBehaviour
 {
     private enum WindowState { OPEN, CLOSED, MIDOPEN}
 
+    public static PlantController instance;
     // Timers, in seconds
     [SerializeField] private float checkStatusSeconds = 1f;
     [SerializeField] private float lowerStatsSeconds = 10f; // Seconds to lower one point of any stat
@@ -16,7 +17,9 @@ public class PlantController : MonoBehaviour
 
     [SerializeField] private int pointsChangedPerHourWhileOut = 1;   // Points changed per hour while NOT in the app
 
-
+    private void Awake() {
+        instance = this;
+    }
     private void Start() 
     {
         // Functions invoked every x seconds.
@@ -44,7 +47,7 @@ public class PlantController : MonoBehaviour
         ChangeLightning(amount);
     }
 
-    private int CheckTimeSinceLastGame()
+    public int CheckTimeSinceLastGame()
     {
         // Checks the time passed since the player last played Plantuki
         // and lowers the stats depending on it.
