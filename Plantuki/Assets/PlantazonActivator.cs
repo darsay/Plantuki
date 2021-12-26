@@ -14,6 +14,6 @@ public class PlantazonActivator : MonoBehaviour {
     }
     IEnumerator StartPlantazon(float t) {
         yield return new WaitForSeconds(t);
-        plantazonUI.SetActive(true);
+        plantazonUI.SetActive(true);;
     }
 }
