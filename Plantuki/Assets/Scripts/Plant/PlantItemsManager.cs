@@ -33,6 +33,16 @@ public class PlantItemsManager : MonoBehaviour
             if (PlayerPrefs.HasKey(item.Key))
             {
                 myItems.Add(item.Key);
+                if (item.Key.StartsWith("h"))
+                {
+                    PlantCustomization.instance.hatsOwned.Add(int.Parse(item.Key[1].ToString()));
+                }else if (item.Key.StartsWith("p"))
+                {
+                    PlantCustomization.instance.plantsOwned.Add(int.Parse(item.Key[1].ToString()));
+                }else if (item.Key.StartsWith("m"))
+                {
+                    PlantCustomization.instance.potsOwned.Add(int.Parse(item.Key[1].ToString()));
+                }
             }
         }
     }

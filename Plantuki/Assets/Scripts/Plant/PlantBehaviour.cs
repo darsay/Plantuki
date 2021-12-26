@@ -21,10 +21,21 @@ public class PlantBehaviour : MonoBehaviour
         instance = this;
 
         // Se inicializa a 100, deberia cambiarse para guardar el estado entre partidas
-        this.wetness = 100;
-        this.satiety = 100;
-        this.cleanliness = 100;
-        this.lightness = 100;
+        if (PlayerPrefs.HasKey("wetness"))
+        {
+            this.wetness = PlayerPrefs.GetInt("wetness");
+            this.satiety = PlayerPrefs.GetInt("satiety");
+            this.cleanliness =PlayerPrefs.GetInt("cleanliness");
+            this.lightness = PlayerPrefs.GetInt("lightness");
+        }
+        else
+        {
+            this.wetness = 100;
+            this.satiety =  100;
+            this.cleanliness = 100;
+            this.lightness =  100;
+        }
+        
     }
 
     /////////////////////////////////////////////////////////////
@@ -94,6 +105,9 @@ public class PlantBehaviour : MonoBehaviour
     {
         if (wetness >= f)
             wetness -= f;
+        
+        PlayerPrefs.SetInt("wetness", wetness);
+        PlayerPrefs.Save();
             
     }
 
@@ -101,12 +115,18 @@ public class PlantBehaviour : MonoBehaviour
     {
         if (satiety >= f)
             satiety -= f;
+        
+        PlayerPrefs.SetInt("satiety", satiety);
+        PlayerPrefs.Save();
     }
 
     public void MakeDirty(int f)
     {
         if (cleanliness >= f)
             cleanliness -= f;
+        
+        PlayerPrefs.SetInt("cleanliness", cleanliness);
+        PlayerPrefs.Save();
     }
 
 
@@ -115,6 +135,8 @@ public class PlantBehaviour : MonoBehaviour
         if (lightness >= f)
         {
             lightness -= f;
+            PlayerPrefs.SetInt("lightness", lightness);
+            PlayerPrefs.Save();
         }
         
     }

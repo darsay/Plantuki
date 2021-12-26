@@ -46,17 +46,17 @@ public class ShopManager : MonoBehaviour
 
     private void addItems()
     {
-        availablesItemsPrices.Add("cowboyHat", 200);
-        availablesItemsPrices.Add("diadema", 300);
-        availablesItemsPrices.Add("crown", 2500);
+        availablesItemsPrices.Add("h3", 200);
+        availablesItemsPrices.Add("h2", 300);
+        availablesItemsPrices.Add("h1", 2500);
         
-        availablesItemsPrices.Add("modernPot", 220);
-        availablesItemsPrices.Add("pipelinePot", 600);
-        availablesItemsPrices.Add("andalucianPot", 420);
+        availablesItemsPrices.Add("m1", 220);
+        availablesItemsPrices.Add("m2", 600);
+        availablesItemsPrices.Add("m3", 420);
         
-        availablesItemsPrices.Add("piranaSkin", 550);
-        availablesItemsPrices.Add("flamencoSkin", 400);
-        availablesItemsPrices.Add("tangerineSkin", 300);
+        availablesItemsPrices.Add("p1", 550);
+        availablesItemsPrices.Add("p2", 400);
+        availablesItemsPrices.Add("p3", 300);
     }
 
     private List<GameObject> GetUnownedItems()
@@ -159,6 +159,21 @@ public class ShopManager : MonoBehaviour
             PlantItemsManager.instance.BuyItem(ItemName);
             checkItemsOwned();
             CoinsManager.instance.modifyCoins(-1*availablesItemsPrices[ItemName]);
+            if (ItemName.StartsWith("h"))
+            {
+                PlantCustomization.instance.hatsOwned.Add(int.Parse(ItemName[1].ToString()));
+                PlantCustomization.instance.hatsOwned.Sort();
+            }else if (ItemName.StartsWith("p"))
+            {
+                PlantCustomization.instance.plantsOwned.Add(int.Parse(ItemName[1].ToString()));
+                PlantCustomization.instance.plantsOwned.Sort();
+                
+            }else if (ItemName.StartsWith("m"))
+            {
+                PlantCustomization.instance.potsOwned.Add(int.Parse(ItemName[1].ToString()));
+                PlantCustomization.instance.potsOwned.Sort();
+            }
+            
             
         }
     }
