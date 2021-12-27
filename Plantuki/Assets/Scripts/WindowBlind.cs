@@ -7,6 +7,7 @@ public class WindowBlind : MonoBehaviour {
     [SerializeField] private Transform blind;
     [SerializeField] private float top;
     [SerializeField] private float bottom;
+    [SerializeField] private AudioSource audioSource;
     
     private Vector2 prevPos;
 
@@ -14,7 +15,13 @@ public class WindowBlind : MonoBehaviour {
 
     private void Update() {
 
-        if (Input.touchCount == 0) return;
+
+        if (Input.touchCount == 0) {
+            audioSource.volume = 0;
+            return;
+        }
+        
+        audioSource.volume = 1;
         
         if (Input.GetTouch(0).phase == TouchPhase.Began) {
             updatingBlind = true;

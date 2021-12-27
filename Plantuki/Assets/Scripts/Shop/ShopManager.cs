@@ -14,16 +14,22 @@ public class ShopManager : MonoBehaviour
 
     private GameObject shopContent;
 
+    private AudioSource audioBuy;
+
+    [SerializeField] private AudioClip buy;
+    [SerializeField] private AudioClip error;
+[SerializeField] 
 
     private void OnEnable()
     {
+        
         //checkItemsOwned();
     }
 
     private void Awake()
     {
         instance = this;
-        
+        audioBuy = GetComponent<AudioSource>();
         addItems();
     }
 
@@ -155,6 +161,7 @@ public class ShopManager : MonoBehaviour
     {
         if (CoinsManager.instance.myCoins >= availablesItemsPrices[ItemName])
         {
+            audioBuy.PlayOneShot(buy);
             PlantItemsManager.instance.myItems.Add(ItemName);
             PlantItemsManager.instance.BuyItem(ItemName);
             checkItemsOwned();
@@ -175,6 +182,9 @@ public class ShopManager : MonoBehaviour
             }
             
             
+        }
+        else {
+            audioBuy.PlayOneShot(error);
         }
     }
 
