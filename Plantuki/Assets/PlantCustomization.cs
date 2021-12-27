@@ -17,6 +17,7 @@ public class PlantCustomization : MonoBehaviour {
     public List<int> potsOwned = new List<int>();
 
     public static PlantCustomization instance;
+    private PlantAnimations plantAnimations;
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class PlantCustomization : MonoBehaviour {
             p.gameObject.SetActive(false);
         }
         plants[plantsOwned[currentPlant]].gameObject.SetActive(true);
+        plantAnimations.plantAnimator = plants[plantsOwned[currentPlant]].GetComponent<Animator>();
         
         foreach (var p in pots) {
             p.SetActive(false);
@@ -43,6 +45,8 @@ public class PlantCustomization : MonoBehaviour {
     private void Awake()
     {
         instance = this;
+
+        plantAnimations = GetComponent<PlantAnimations>();
         
         hatsOwned.Add(0);
         hatsOwned.Add(4);
@@ -94,6 +98,8 @@ public class PlantCustomization : MonoBehaviour {
             h.SetActive(false);
         }
         hats[hatsOwned[currentHat]].SetActive(true);
+        
+        plantAnimations.plantAnimator = plants[plantsOwned[currentPlant]].GetComponent<Animator>();
     }
     
     public void PreviousPlant() {
@@ -108,6 +114,8 @@ public class PlantCustomization : MonoBehaviour {
             h.SetActive(false);
         }
         hats[hatsOwned[currentHat]].SetActive(true);
+        
+        plantAnimations.plantAnimator = plants[plantsOwned[currentPlant]].GetComponent<Animator>();
     }
 
     public void NextHat() {

@@ -13,9 +13,14 @@ public class VolumeButton : MonoBehaviour {
 
     [SerializeField] private float coolDown;
 
+    [SerializeField] private Sprite volume;
+    [SerializeField] private Sprite back;
+    private Image spriteRenderer;
+
     private void Awake() {
         _button = GetComponent<Button>();
         finger = FindObjectOfType<FingersRotateCameraComponentScript>();
+        spriteRenderer = GetComponent<Image>();
     }
 
     private void OnEnable() {
@@ -29,11 +34,12 @@ public class VolumeButton : MonoBehaviour {
     void HideShowMenu() {
         if (_audioMenu.activeSelf) {
             _audioMenu.GetComponent<DisableAnim>().DisablePlay();
-            
+            spriteRenderer.sprite = volume;
             finger.enabled = true;
         }
         else {
             _audioMenu.SetActive(true);
+            spriteRenderer.sprite = back;
             finger.enabled = false;
         }
         StartCoroutine(CoolDownPress(coolDown));

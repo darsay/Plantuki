@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlantAnimations : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class PlantAnimations : MonoBehaviour {
+    public Animator plantAnimator;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+    public void Eat() {
+        plantAnimator.Play("eat", -1, 0);
     }
 }
