@@ -100,6 +100,7 @@ public class PlantCustomization : MonoBehaviour {
         hats[hatsOwned[currentHat]].SetActive(true);
         
         plantAnimations.plantAnimator = plants[plantsOwned[currentPlant]].GetComponent<Animator>();
+        plantAnimations.plantAnimator.SetBool("Sad", plantAnimations.sad);
     }
     
     public void PreviousPlant() {
@@ -116,6 +117,7 @@ public class PlantCustomization : MonoBehaviour {
         hats[hatsOwned[currentHat]].SetActive(true);
         
         plantAnimations.plantAnimator = plants[plantsOwned[currentPlant]].GetComponent<Animator>();
+        plantAnimations.plantAnimator.SetBool("Sad", plantAnimations.sad);
     }
 
     public void NextHat() {

@@ -15,10 +15,15 @@ public class PlantController : MonoBehaviour
 
     [SerializeField] private int amoutChangedStats = 1;
 
-    [SerializeField] private int pointsChangedPerHourWhileOut = 1;   // Points changed per hour while NOT in the app
+    [SerializeField] private int pointsChangedPerHourWhileOut = 1;
+
+    private PlantAnimations plantAnimations;// Points changed per hour while NOT in the app
 
     private void Awake() {
+        //PlayerPrefs.DeleteAll();
         instance = this;
+
+        plantAnimations = FindObjectOfType<PlantAnimations>();
     }
     private void Start() 
     {
@@ -120,12 +125,13 @@ public class PlantController : MonoBehaviour
     /*
     *      CHECK STATS
     */
-    private void CheckStats()
-    {
+    private void CheckStats() {
+        plantAnimations.sad = false;
         CheckSatiety();
         CheckWetness();
         CheckCleanliness();
         CheckLightness();
+        plantAnimations.ChangeIdle();
     }
 
     private void CheckSatiety()
@@ -148,6 +154,10 @@ public class PlantController : MonoBehaviour
                 Debug.Log("Your plant starved.");
                 break;
         }
+
+        if (PlantBehaviour.instance.satiety <= 20) {
+            plantAnimations.sad = true;
+        }
     }
     private void CheckWetness()
     {
@@ -169,6 +179,10 @@ public class PlantController : MonoBehaviour
                 Debug.Log("Your plant died of thirst.");
                 break;
         }
+        
+        if (PlantBehaviour.instance.wetness <= 20) {
+            plantAnimations.sad = true;
+        }
     }
     private void CheckCleanliness()
     {
@@ -187,6 +201,10 @@ public class PlantController : MonoBehaviour
                 Debug.Log("Your plant really needs a cleanup");
                 break;
         }
+        
+        if (PlantBehaviour.instance.cleanliness <= 10) {
+            plantAnimations.sad = true;
+        }
     }
     private void CheckLightness()
     {
@@ -204,6 +222,10 @@ public class PlantController : MonoBehaviour
             case 5:
                 Debug.Log("Your plant is living in darkness");
                 break;
+        }
+        
+        if (PlantBehaviour.instance.lightness >= 80 || PlantBehaviour.instance.lightness <= 20) {
+            plantAnimations.sad = true;
         }
     }
 }

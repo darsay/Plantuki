@@ -15,6 +15,7 @@ public class DragDrop : MonoBehaviour, IDragHandler, IPointerDownHandler, IBegin
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     public Type objectType;
+    public bool isDragging;
 
     [SerializeField] private Canvas canvas;
 
@@ -30,7 +31,7 @@ public class DragDrop : MonoBehaviour, IDragHandler, IPointerDownHandler, IBegin
 
 
     public void OnPointerDown(PointerEventData eventData) {
-        throw new NotImplementedException();
+        
     }
 
     public void OnEndDrag(PointerEventData eventData) {
@@ -38,11 +39,14 @@ public class DragDrop : MonoBehaviour, IDragHandler, IPointerDownHandler, IBegin
         
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
+
+        isDragging = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;
+        isDragging = true;
     }
 
     public void OnDrag(PointerEventData eventData) {

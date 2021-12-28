@@ -21,15 +21,15 @@ public class PlantBehaviour : MonoBehaviour
         instance = this;
 
         // Se inicializa a 100, deberia cambiarse para guardar el estado entre partidas
-        if (PlayerPrefs.HasKey("wetness"))
-        {
-            this.wetness = PlayerPrefs.GetInt("wetness");
-            this.satiety = PlayerPrefs.GetInt("satiety");
-            this.cleanliness =PlayerPrefs.GetInt("cleanliness");
-            this.lightness = PlayerPrefs.GetInt("lightness");
-        }
-        else
-        {
+       if (PlayerPrefs.HasKey("wetness"))
+       {
+           this.wetness = PlayerPrefs.GetInt("wetness");
+           this.satiety = PlayerPrefs.GetInt("satiety");
+           this.cleanliness =PlayerPrefs.GetInt("cleanliness");
+           this.lightness = PlayerPrefs.GetInt("lightness");
+       }
+       else
+       {
             this.wetness = 100;
             this.satiety =  100;
             this.cleanliness = 100;
@@ -88,23 +88,18 @@ public class PlantBehaviour : MonoBehaviour
     #region  Decrease stats
     public void DecreaseAll(int wet, int sat, int clean, int light)
     {
-        if (wetness >= wet)
-            wetness -= wet;
-
-        if (satiety >= sat)
-            satiety -= sat;
-
-        if (cleanliness >= clean)
-            cleanliness -= clean;
-
-        if (lightness >= light)
-            lightness -= light;
+        wetness = wetness - wet > 0 ? wetness - wet : 0;
+        
+        satiety = satiety - sat > 0 ? satiety - sat : 0;
+        
+        cleanliness = cleanliness - clean > 0 ? cleanliness - clean : 0;
+        
+        lightness = lightness - light > 0 ? lightness - light : 0;
     }
 
     public void MakeDry(int f)
     {
-        if (wetness >= f)
-            wetness -= f;
+        wetness = wetness - f > 0 ? wetness - f : 0;
         
         PlayerPrefs.SetInt("wetness", wetness);
         PlayerPrefs.Save();
@@ -113,8 +108,7 @@ public class PlantBehaviour : MonoBehaviour
 
     public void MakeHungry(int f)
     {
-        if (satiety >= f)
-            satiety -= f;
+        satiety = satiety - f > 0 ? satiety - f : 0;
         
         PlayerPrefs.SetInt("satiety", satiety);
         PlayerPrefs.Save();
@@ -122,8 +116,7 @@ public class PlantBehaviour : MonoBehaviour
 
     public void MakeDirty(int f)
     {
-        if (cleanliness >= f)
-            cleanliness -= f;
+        cleanliness = cleanliness - f > 0 ? cleanliness - f : 0;
         
         PlayerPrefs.SetInt("cleanliness", cleanliness);
         PlayerPrefs.Save();
@@ -132,12 +125,11 @@ public class PlantBehaviour : MonoBehaviour
 
     public void MakeDark(int f)
     {
-        if (lightness >= f)
-        {
-            lightness -= f;
-            PlayerPrefs.SetInt("lightness", lightness);
-            PlayerPrefs.Save();
-        }
+        lightness = lightness - f > 0 ? lightness - f : 0;
+        
+        PlayerPrefs.SetInt("lightness", lightness);
+        PlayerPrefs.Save();
+
         
     }
     #endregion
