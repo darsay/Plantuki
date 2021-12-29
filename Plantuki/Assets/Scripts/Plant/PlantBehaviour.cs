@@ -11,10 +11,10 @@ public class PlantBehaviour : MonoBehaviour
     public static PlantBehaviour instance;
 
     // Plant needs with getters and setters
-    public int wetness { get; private set; }
-    public int satiety { get; private set; }
-    public int cleanliness { get; private set; }
-    public int lightness { get; private set; } // Light needs to be around 60 to be OK
+    public float wetness { get; private set; }
+    public float satiety { get; private set; }
+    public float cleanliness { get; private set; }
+    public float lightness { get; private set; } // Light needs to be around 60 to be OK
 
     private void Awake()
     {
@@ -23,18 +23,27 @@ public class PlantBehaviour : MonoBehaviour
         // Se inicializa a 100, deberia cambiarse para guardar el estado entre partidas
        if (PlayerPrefs.HasKey("wetness"))
        {
-           this.wetness = PlayerPrefs.GetInt("wetness");
-           this.satiety = PlayerPrefs.GetInt("satiety");
-           this.cleanliness =PlayerPrefs.GetInt("cleanliness");
-           this.lightness = PlayerPrefs.GetInt("lightness");
+           this.wetness = PlayerPrefs.GetFloat("wetness");
+           this.satiety = PlayerPrefs.GetFloat("satiety");
+           this.cleanliness =PlayerPrefs.GetFloat("cleanliness");
+           this.lightness = PlayerPrefs.GetFloat("lightness");
        }
        else
        {
             this.wetness = 100;
             this.satiety =  100;
             this.cleanliness = 100;
-            this.lightness =  100;
-        }
+            this.lightness =  70;
+            
+            Notifications.SharedInstance.sendNotification("¡Plantuki tiene sed!", "vuelve pronto", 0, wetness/100*1440);
+            Notifications.SharedInstance.sendNotification("¡La tripita de Plantuki ruge!", "vuelve pronto", 1, satiety/100*1440);
+            Notifications.SharedInstance.sendNotification("¡A Plantuki le hace falta un baño!", "vuelve pronto", 2, cleanliness/100*1440);
+       }
+       
+       GiveClean(0);
+       GiveFood(0);
+       GiveLight(0);
+       GiveWater(0);
         
     }
 
@@ -42,7 +51,7 @@ public class PlantBehaviour : MonoBehaviour
     /// INCREASE STATS
     /////////////////////////////////////////////////////////////
     #region  Increase stats
-    public void GiveWater(int f)
+    public void GiveWater(float f)
     {
         wetness += f;
         wetness = Mathf.Clamp(wetness, f, 100);
@@ -53,27 +62,27 @@ public class PlantBehaviour : MonoBehaviour
         // }
 
         Notifications.SharedInstance.cancelNotification(0);
-        Notifications.SharedInstance.sendNotification("Tiene sed", "vuelve pronto", 0, wetness/100*2880);
+        Notifications.SharedInstance.sendNotification("¡Plantuki tiene sed!", "vuelve pronto", 0, wetness/100*1440);
     }
 
-    public void GiveFood(int f)
+    public void GiveFood(float f)
     {
         satiety += f;
         satiety = Mathf.Clamp(satiety, f, 100);
         Notifications.SharedInstance.cancelNotification(1);
-        Notifications.SharedInstance.sendNotification("Tiene hambre", "vuelve pronto", 0, satiety/100*2880);
+        Notifications.SharedInstance.sendNotification("¡La tripita de Plantuki ruge!", "vuelve pronto", 1, satiety/100*1440);
     }
 
-    public void GiveClean(int f)
+    public void GiveClean(float f)
     {
         cleanliness += f;
         cleanliness = Mathf.Clamp(cleanliness, f, 100);
         
-        Notifications.SharedInstance.cancelNotification(0);
-        Notifications.SharedInstance.sendNotification("Está sucia", "vuelve pronto", 0, cleanliness/100*2880);
+        Notifications.SharedInstance.cancelNotification(2);
+        Notifications.SharedInstance.sendNotification("¡A Plantuki le hace falta un baño!", "vuelve pronto", 2, cleanliness/100*1440);
     }
 
-    public void GiveLight(int f)
+    public void GiveLight(float f)
     {
         lightness += f;
         lightness = Mathf.Clamp(lightness, f, 100);
@@ -86,7 +95,7 @@ public class PlantBehaviour : MonoBehaviour
     /// DECREASE STATS
     /////////////////////////////////////////////////////////////
     #region  Decrease stats
-    public void DecreaseAll(int wet, int sat, int clean, int light)
+    public void DecreaseAll(float wet, float sat, float clean, float light)
     {
         wetness = wetness - wet > 0 ? wetness - wet : 0;
         
@@ -97,37 +106,37 @@ public class PlantBehaviour : MonoBehaviour
         lightness = lightness - light > 0 ? lightness - light : 0;
     }
 
-    public void MakeDry(int f)
+    public void MakeDry(float f)
     {
         wetness = wetness - f > 0 ? wetness - f : 0;
         
-        PlayerPrefs.SetInt("wetness", wetness);
+        PlayerPrefs.SetFloat("wetness", wetness);
         PlayerPrefs.Save();
             
     }
 
-    public void MakeHungry(int f)
+    public void MakeHungry(float f)
     {
         satiety = satiety - f > 0 ? satiety - f : 0;
         
-        PlayerPrefs.SetInt("satiety", satiety);
+        PlayerPrefs.SetFloat("satiety", satiety);
         PlayerPrefs.Save();
     }
 
-    public void MakeDirty(int f)
+    public void MakeDirty(float f)
     {
         cleanliness = cleanliness - f > 0 ? cleanliness - f : 0;
         
-        PlayerPrefs.SetInt("cleanliness", cleanliness);
+        PlayerPrefs.SetFloat("cleanliness", cleanliness);
         PlayerPrefs.Save();
     }
 
 
-    public void MakeDark(int f)
+    public void MakeDark(float f)
     {
         lightness = lightness - f > 0 ? lightness - f : 0;
         
-        PlayerPrefs.SetInt("lightness", lightness);
+        PlayerPrefs.SetFloat("lightness", lightness);
         PlayerPrefs.Save();
 
         

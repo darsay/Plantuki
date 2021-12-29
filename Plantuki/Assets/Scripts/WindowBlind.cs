@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WindowBlind : MonoBehaviour {
-    [SerializeField] private Transform blind;
+    [SerializeField] public Transform blind;
     [SerializeField] private float top;
     [SerializeField] private float bottom;
     [SerializeField] private AudioSource audioSource;
@@ -12,6 +13,10 @@ public class WindowBlind : MonoBehaviour {
     private Vector2 prevPos;
 
     private bool updatingBlind;
+
+    [SerializeField] public Sprite[] sprites;
+    [SerializeField] public Image image;
+    
 
     private void Update() {
 

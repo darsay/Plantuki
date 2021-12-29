@@ -34,7 +34,25 @@ public class Notifications : MonoBehaviour
             Importance = Importance.Default,
             Description = "Generic notifications",
         };
+        
+        var channel2 = new AndroidNotificationChannel()
+        {
+            Id = "channel_id2",
+            Name = "Default Channel",
+            Importance = Importance.Default,
+            Description = "Generic notifications",
+        };
+        
+        var channel3 = new AndroidNotificationChannel()
+        {
+            Id = "channel_id3",
+            Name = "Default Channel",
+            Importance = Importance.Default,
+            Description = "Generic notifications",
+        };
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
+        AndroidNotificationCenter.RegisterNotificationChannel(channel2);
+        AndroidNotificationCenter.RegisterNotificationChannel(channel3);
         
     }
 
@@ -44,18 +62,16 @@ public class Notifications : MonoBehaviour
         notification.Title = title;
         notification.Text = textNot;
         notification.FireTime = DateTime.Now.AddMinutes(time);
-        notification.SmallIcon = "plant";
-        notification.LargeIcon = "plant";
         switch (type)
         {
             case 0:
                 AndroidNotificationCenter.SendNotificationWithExplicitID(notification, "channel_id1", ThirstId);
                 break;
             case 1: 
-                AndroidNotificationCenter.SendNotificationWithExplicitID(notification, "channel_id1", HungerId);
+                AndroidNotificationCenter.SendNotificationWithExplicitID(notification, "channel_id2", HungerId);
                 break;
             case 2: 
-                AndroidNotificationCenter.SendNotificationWithExplicitID(notification, "channel_id1", LightId);
+                AndroidNotificationCenter.SendNotificationWithExplicitID(notification, "channel_id3", LightId);
                 break;
 
         }

@@ -13,11 +13,13 @@ public class PlantController : MonoBehaviour
     [SerializeField] private float checkStatusSeconds = 1f;
     [SerializeField] private float lowerStatsSeconds = 10f; // Seconds to lower one point of any stat
 
-    [SerializeField] private int amoutChangedStats = 1;
+    [SerializeField] private float amoutChangedStats = 0.1f;
 
     [SerializeField] private int pointsChangedPerHourWhileOut = 1;
 
     private PlantAnimations plantAnimations;// Points changed per hour while NOT in the app
+
+    [SerializeField] private WindowBlind windowBlind;
 
     private void Awake() {
         //PlayerPrefs.DeleteAll();
@@ -98,26 +100,29 @@ public class PlantController : MonoBehaviour
 
     #endregion
 
-    private void ChangeLightning(int amount)
+    private void ChangeLightning(float amount)
     {
         // Changes Plantuki's light depending on a value and amount given
-        GameObject window = GameObject.Find("Blind"); // Important, name of the gameobject!!
-        float windowY = window.transform.localPosition.y;
+       
+        float windowY = windowBlind.blind.transform.localPosition.y;
         
         if(windowY > 0.5)
         {
             // Full light
             PlantBehaviour.instance.GiveLight(amount);
+            windowBlind.image.sprite = windowBlind.sprites[2];
         }
         else if(windowY > 0.2)
         {
             // Medium light
             PlantBehaviour.instance.MakeDark(amount/10);
+            windowBlind.image.sprite = windowBlind.sprites[1];
         }
         else
         {
             // Low light
             PlantBehaviour.instance.MakeDark(amount);
+            windowBlind.image.sprite = windowBlind.sprites[0];
         }
     }
     

@@ -44,7 +44,7 @@ public class PlantDrop : MonoBehaviour, IDropHandler {
         }
 
         if (isWatering) {
-            PlantBehaviour.instance.GiveWater(2);
+            PlantBehaviour.instance.GiveWater(0.5f);
         }
         
         if (!soap.isDragging) {

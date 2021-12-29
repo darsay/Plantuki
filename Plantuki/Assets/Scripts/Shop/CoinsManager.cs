@@ -57,19 +57,20 @@ public class CoinsManager : MonoBehaviour
 
         int coins = 0;
 
-        if(PlantBehaviour.instance.satiety > 75)
+        if(PlantBehaviour.instance.satiety > 20)
             coins++;
 
-        if(PlantBehaviour.instance.wetness > 75)
+        if(PlantBehaviour.instance.wetness > 20)
             coins++;
 
-        if(PlantBehaviour.instance.cleanliness > 75)
+        if(PlantBehaviour.instance.cleanliness > 20)
             coins++;
 
-        if(PlantBehaviour.instance.lightness > 35 &&
-             PlantBehaviour.instance.lightness < 75)
+        if(PlantBehaviour.instance.lightness > 20 &&
+             PlantBehaviour.instance.lightness < 80)
             coins++;
-
+        
+        print($"Coins: {coins}");
         modifyCoins(coins);
     }
 

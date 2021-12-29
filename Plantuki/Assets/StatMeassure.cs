@@ -68,7 +68,7 @@ public class StatMeassure : MonoBehaviour
         meassure.anchoredPosition = new Vector2(0,
             bottom + (-bottom) * plantBehaviour.cleanliness / 100);
 
-        if (plantBehaviour.cleanliness < 10) {
+        if (plantBehaviour.cleanliness < 20) {
             progressImg.color = colors[1];
         }else{
             progressImg.color = colors[0];
@@ -112,7 +112,7 @@ public class StatMeassure : MonoBehaviour
         meassure.anchoredPosition = new Vector2(0,
             bottom + (-bottom) * plantBehaviour.wetness / 100);
         
-        if (plantBehaviour.wetness < 50) {
+        if (plantBehaviour.wetness < 20) {
             progressImg.color = colors[1];
         }else{
             progressImg.color = colors[0];
