@@ -11,7 +11,7 @@ public class CoinsManager : MonoBehaviour
 
     public int myCoins = 1000;
     [SerializeField] private GameObject CoinsTMP;
-    private int coinsPerHourSinceLastGame = 5000;
+    private int coinsPerHourSinceLastGame = 100;
     private float upgradeCoinsOffset = 5f; // Seconds since the game started to call the function. Only used once
     private float upgradeCoinsSeconds = 10f; // Interval in seconds to call the function every time
 

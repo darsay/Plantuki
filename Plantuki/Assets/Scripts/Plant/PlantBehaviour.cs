@@ -2,6 +2,7 @@
  * Plant atributes and functions to modify them
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,11 +41,15 @@ public class PlantBehaviour : MonoBehaviour
             Notifications.SharedInstance.sendNotification("¡A Plantuki le hace falta un baño!", "vuelve pronto", 2, cleanliness/100*1440);
        }
        
-       GiveClean(0);
-       GiveFood(0);
-       GiveLight(0);
-       GiveWater(0);
+       
         
+    }
+
+    private void Start() {
+        GiveClean(0);
+        GiveFood(0);
+        GiveLight(0);
+        GiveWater(0);
     }
 
     /////////////////////////////////////////////////////////////
